@@ -73,26 +73,36 @@ public class GlobalActionBarService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
 
-        final int eventType = event.getEventType();
-        String eventText = null;
-        switch(eventType) {
-            case AccessibilityEvent.TYPE_VIEW_CLICKED:
-                eventText = "Clicked: ";
-                break;
-       //     case AccessibilityEvent.TYPE_VIEW_FOCUSED:
-         //       eventText = "Focused: ";
-           //     break;
-        }
+        if(event.getEventType()==AccessibilityEvent.TYPE_VIEW_CLICKED) {
 
-        if(event.getContentDescription()!=null){
-            eventText = eventText + event.getContentDescription();
-        }
-        else {
-            eventText = eventText + event.getText();
+            final int eventType = event.getEventType();
+            String eventText = "";
+            switch (eventType) {
 
-        }
+//           case AccessibilityEvent.TYPE_VIEW_FOCUSED:
+                //      eventText = "Focused: ";
+                //              break;
 
-        speakToUser(eventText);
+                case AccessibilityEvent.TYPE_VIEW_CLICKED:
+                    eventText = "Clicked: ";
+                    break;
+
+            }
+
+            if (event.getContentDescription() != null) {
+                eventText = eventText + event.getContentDescription();
+            }
+           else if (event.getText().toString() != null) {
+                eventText = eventText + event.getText();
+
+            } else {
+                eventText += "Something";
+            }
+
+            Log.d("text:", eventText);
+
+            speakToUser(eventText);
+        }
 
 
     }
